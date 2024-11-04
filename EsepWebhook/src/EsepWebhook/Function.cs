@@ -20,12 +20,8 @@ public class Function
     {
         context.Logger.LogInformation($"FunctionHandler received: {input}");
     
-        dynamic json = JsonConvert.DeserializeObject<dynamic>(input.ToString());
-        dynamic body = JsonConvert.DeserializeObject<dynamic>(json.body.ToString());
-        
-        context.Logger.LogInformation($"Body parsed: {body}");
-        
-        string payload = $"{{'text':'Issue Created: {body.issue.html_url}'}}";
+        dynamic json = JsonConvert.DeserializeObject<dynamic>(input.ToString());        
+        string payload = $"{{'text':'Issue Created: {json.issue.html_url}'}}";
         
         var client = new HttpClient();
         var webRequest = new HttpRequestMessage(HttpMethod.Post, Environment.GetEnvironmentVariable("SLACK_URL"))
